@@ -22,6 +22,6 @@ spring:
         web-allow-others: false
 
 iyzipay:
-  api-key: sandbox-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-  secret-key: sandbox-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+  api-key: sandbox-MqKkkNPXeasmyeSlEoiMAneN5fN3rXxd
+  secret-key: sandbox-b08aEqc2x7HY0TVJDRejkqr88rUeHcMj
   base-url: https://sandbox-api.iyzipay.com

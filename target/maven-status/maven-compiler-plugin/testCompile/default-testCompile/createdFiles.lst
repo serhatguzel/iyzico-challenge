@@ -1,0 +1,8 @@
+com/iyzico/challenge/service/FlightServiceTest.class
+com/iyzico/challenge/service/IyzicoPaymentServiceTest.class
+com/iyzico/challenge/service/BookingServiceTest$BuySeat.class
+com/iyzico/challenge/service/FlightServiceTest$AddFlight.class
+com/iyzico/challenge/service/BookingServiceTest.class
+com/iyzico/challenge/FlightBookingServiceIT.class
+com/iyzico/challenge/service/FlightServiceTest$GetAllFlights.class
+com/iyzico/challenge/service/FlightServiceTest$DeleteFlight.class
