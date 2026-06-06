@@ -1,5 +1,8 @@
 package com.iyzico.challenge.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -11,6 +14,11 @@ import java.util.List;
  */
 @Entity
 @Table(name = "flights")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Flight {
 
     @Id
@@ -31,22 +39,10 @@ public class Flight {
 
     /**
      * Bu uçuşa ait koltuklar. Cascade ile birlikte kayıt/silme işlemi yapılır.
+     * @JsonManagedReference: Flight→Seat→Flight sonsuz JSON döngüsünü kırar.
      */
     @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    @Builder.Default
     private List<Seat> seats = new ArrayList<>();
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
-
-    public BigDecimal getPrice() { return price; }
-    public void setPrice(BigDecimal price) { this.price = price; }
-
-    public List<Seat> getSeats() { return seats; }
-    public void setSeats(List<Seat> seats) { this.seats = seats; }
 }

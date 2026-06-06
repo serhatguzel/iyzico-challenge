@@ -1,5 +1,8 @@
 package com.iyzico.challenge.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.*;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 
@@ -9,9 +12,17 @@ import java.math.BigDecimal;
  * Concurrency güvenliği için @Version anotasyonu kullanılır (Optimistic Lock).
  * İki kullanıcı aynı koltuğu aynı anda almaya çalışırsa, Hibernate
  * ObjectOptimisticLockingFailureException fırlatır.
+ *
+ * @JsonBackReference: Seat→Flight→Seat sonsuz JSON döngüsünü kırar;
+ *                     flight alanı JSON serialize edilmez.
  */
 @Entity
 @Table(name = "seats")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Seat {
 
     @Id
@@ -29,42 +40,26 @@ public class Seat {
 
     /**
      * Koltuğun satılıp satılmadığını belirtir.
-     * true => Satıldı, false => Müsait
+     * true = Satıldı, false = Müsait
      */
     @Column(nullable = false)
+    @Builder.Default
     private boolean isSold = false;
 
     /**
      * Optimistic Locking için versiyon alanı.
      * Her güncelleme işleminde Hibernate bu değeri otomatik artırır.
-     * Eğer iki işlem aynı versiyonu okuyup yazarsa, ikincisi
-     * ObjectOptimisticLockingFailureException alır.
+     * Çakışma olursa ObjectOptimisticLockingFailureException fırlatılır.
      */
     @Version
     private Long version;
 
     /**
      * Bu koltuğun ait olduğu uçuş.
+     * @JsonBackReference ile JSON serialize edilmez (döngü önlenir).
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "flight_id", nullable = false)
+    @JsonBackReference
     private Flight flight;
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getSeatNumber() { return seatNumber; }
-    public void setSeatNumber(String seatNumber) { this.seatNumber = seatNumber; }
-
-    public BigDecimal getPrice() { return price; }
-    public void setPrice(BigDecimal price) { this.price = price; }
-
-    public boolean isSold() { return isSold; }
-    public void setSold(boolean sold) { isSold = sold; }
-
-    public Long getVersion() { return version; }
-    public void setVersion(Long version) { this.version = version; }
-
-    public Flight getFlight() { return flight; }
-    public void setFlight(Flight flight) { this.flight = flight; }
 }
